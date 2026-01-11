@@ -10,7 +10,7 @@ charset-normalizer==3.4.2
 constantly==23.10.4
 cryptography==45.0.4
 daphne==4.2.0
-Django==5.2.1
+Django==4.2.27
 django-cors-headers==4.7.0
 djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.0
@@ -25,7 +25,6 @@ pyasn1_modules==0.4.2
 pycparser==2.22
 PyJWT==2.9.0
 pyOpenSSL==25.1.0
-pywin32==310
 redis==6.2.0
 requests==2.32.3
 service-identity==24.2.0

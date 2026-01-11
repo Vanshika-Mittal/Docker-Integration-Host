@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getAccessToken, logout } from '../utils/auth';
+<<<<<<< HEAD
 // import { getHostDetails } from '../api/hostApi'; // Assuming you have an API utility for fetching host details
 import { API_BASE_URL } from '../config';
+=======
+>>>>>>> 9d396aa ([ Backend ] : Dockerised the whole app)
 
 export default function HostDetail() {
     const { host_id } = useParams();  

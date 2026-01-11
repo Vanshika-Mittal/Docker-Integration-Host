@@ -1,0 +1,51 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: Docker-Integration-Host
+      POSTGRES_USER: Admin
+      POSTGRES_PASSWORD: Hamsa@2005
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: /bin/sh -c "python manage.py migrate --noinput && daphne -b 0.0.0.0 -p 8000 home.asgi:application"
+    volumes:
+      - ./backend:/app
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DEBUG=1
+      - DJANGO_SETTINGS_MODULE=home.settings
+      - POSTGRES_DB=Docker-Integration-Host
+      - POSTGRES_USER=Admin
+      - POSTGRES_PASSWORD=Hamsa@2005
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      # ASGI variable no longer needed, always using Daphne
+    depends_on:
+      - postgres
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
+  frontend_node_modules:

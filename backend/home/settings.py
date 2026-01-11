@@ -79,6 +79,11 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "http://localhost:3000",
+    "http://frontend:3000",
+    "http://frontend:5173",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:3000",
 ]
 
 ROOT_URLCONF = "home.urls"
@@ -105,15 +110,16 @@ WSGI_APPLICATION = "home.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+from config import DATABASE_URL, DATABASE_NAME, DATABASE_USER, DATABASE_PASS, DATABASE_PORT
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Docker-Integration-Host',
-        'USER': 'Admin',
-        'PASSWORD': 'Hamsa@2005',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': DATABASE_NAME,
+        'USER': DATABASE_USER,
+        'PASSWORD': DATABASE_PASS,
+        'HOST': DATABASE_URL,
+        'PORT': DATABASE_PORT,
     }
 }
 

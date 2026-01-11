@@ -233,19 +233,17 @@ def create_container(request, host_id):
 
             # Parse details from image object
             image_id = img.id.split(':')[-1]
-            tags = img.tags or ['<none>:<none>']
-            repository, tag = tags[0].split(':') if ':' in tags[0] else (tags[0], 'latest')
-            size_mb = round(img.attrs['Size'] / (1024 * 1024), 2)
+            tags = img.tags or ['<none>:latest']
+            name, tag = tags[0].split(':', 1) if ':' in tags[0] else (tags[0], 'latest')
+            image_size = img.attrs.get('Size', None)
 
-            # Save to DB only if not already tracked
             if not Image.objects.filter(image_id=image_id, host=host).exists():
                 Image.objects.create(
                     host=host,
-                    image_id=image_id,
-                    repository=repository,
+                    name=name,
                     tag=tag,
-                    size_mb=size_mb,
-                    created_at=now()
+                    image_id=image_id,
+                    size=image_size
                 )
 
             docker_container = client.containers.create(**container_config)
